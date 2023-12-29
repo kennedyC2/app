@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+        "mongodb": "5.5",
+        "nodemailer": "^6.9.3",
+        "nodemon": "^2.0.22"
+    },
+    "scripts": {
+        "start": "nodemon index.js"
+    }
+}
