@@ -41,7 +41,7 @@ const createUser = async (data, callback) => {
                             phone: phone,
                             password: hashedPassword,
                             delivery: "imo",
-                            verified: false,
+                            verified: true,
                             active: false,
                             admin: false,
                             code: vCode.toUpperCase(),

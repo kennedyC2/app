@@ -112,7 +112,8 @@ const SignUp = ({ FetchAppData }) => {
 
                     setTimeout(() => {
                         // Navigate
-                        Navigate("/account/verification", { replace: true })
+                        // Navigate("/account/verification", { replace: true })
+                        Navigate("/account/login", { replace: true })
                     }, 2000);
                 }, 2000);
 

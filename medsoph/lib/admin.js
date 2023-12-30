@@ -75,7 +75,7 @@ admin["create_account"] = async (data, callback) => {
                             account: "administrator",
                             code: vCode.toUpperCase(),
                             fetched: true,
-                            verified: false,
+                            verified: true,
                         };
 
                         await userDir.insertOne(response);

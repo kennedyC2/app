@@ -65,7 +65,8 @@ const SignUP = () => {
             Dispatch({ type: "personal", payload: response.data });
 
             setTimeout(() => {
-                navigate("/account/verification", { replace: true });
+                // navigate("/account/verification", { replace: true });
+                navigate("/login", { replace: true });
             }, 2000);
         } catch (error) {
             // Remove Hide
