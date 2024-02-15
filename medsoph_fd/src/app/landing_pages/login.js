@@ -50,20 +50,22 @@ const Login = () => {
             const _data = {}
 
             // Loop
-            response.data.company.pending.forEach((prop, index) => {
-                const date = prop.date.split("-")
-                if (_data[`${months[parseInt(date[1]) - 1]}_${date[0]}_${date[2]}`] !== undefined) {
-                    prop["position"] = index
-                    _data[`${months[parseInt(date[1]) - 1]}_${date[0]}_${date[2]}`].push(prop)
-                } else {
-                    _data[`${months[parseInt(date[1]) - 1]}_${date[0]}_${date[2]}`] = []
-                    prop["position"] = index
-                    _data[`${months[parseInt(date[1]) - 1]}_${date[0]}_${date[2]}`].push(prop)
-                }
-            })
+            if (response.data.company.hasOwnProperty("pending")) {
+                response.data.company.pending.forEach((prop, index) => {
+                    const date = prop.date.split("-")
+                    if (_data[`${months[parseInt(date[1]) - 1]}_${date[0]}_${date[2]}`] !== undefined) {
+                        prop["position"] = index
+                        _data[`${months[parseInt(date[1]) - 1]}_${date[0]}_${date[2]}`].push(prop)
+                    } else {
+                        _data[`${months[parseInt(date[1]) - 1]}_${date[0]}_${date[2]}`] = []
+                        prop["position"] = index
+                        _data[`${months[parseInt(date[1]) - 1]}_${date[0]}_${date[2]}`].push(prop)
+                    }
+                })
 
-            // Update Company
-            response.data.company.pending = _data
+                // Update Company
+                response.data.company.pending = _data
+            }
 
             // fetched
             response.data["fetched"] = true
@@ -89,6 +91,7 @@ const Login = () => {
             }
 
         } catch (error) {
+            console.log(error)
             // Remove Hide
             setTimeout(() => {
                 setHide(0);

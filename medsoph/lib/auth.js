@@ -61,12 +61,15 @@ const authenticate = async (data, callback) => {
 
                             // Delete _id
                             delete data_1._id
-                            delete company[0]._id
+
+                            if (company.length > 0) {
+                                delete company[0]._id
+                            }
 
                             // Return
                             callback(200, {
                                 user: data_1,
-                                company: company[0]
+                                company: company
                             }, "json");
                         } else {
                             // Return

@@ -5,7 +5,7 @@ import { domain } from "./helpers";
 import { useDispatch, useSelector } from "react-redux";
 import { set } from "idb-keyval";
 import { store } from "./main";
-import axios from "axios";
+// import axios from "axios";
 
 const Header = ({ CreateCart, CreateWishlist }) => {
     const Dispatch = useDispatch()
@@ -91,18 +91,20 @@ const Header = ({ CreateCart, CreateWishlist }) => {
                             {/* Desktop Search Bar */}
                             <div className="d_search_bar">
                                 <div className="input-group">
-                                    <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="Search_bar_d" defaultValue={state && state.q ? state.q : ""} onKeyDown={e => {
-                                        if (e.key === "Enter" && e.target.value !== "") {
-                                            // Fetch Data
-                                            (async () => {
-                                                const response = await axios.get(domain + "products/search?i=marky&q=" + e.target.value);
-                                                Dispatch({ type: "createSearchData", payload: response.data });
-                                            })();
+                                    <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="Search_bar_d" defaultValue={state && state.q ? state.q : ""}
+                                    // onKeyDown={e => {
+                                    //     if (e.key === "Enter" && e.target.value !== "") {
+                                    //         // Fetch Data
+                                    //         (async () => {
+                                    //             const response = await axios.get(domain + "products/search?i=marky&q=" + e.target.value);
+                                    //             Dispatch({ type: "createSearchData", payload: response.data });
+                                    //         })();
 
-                                            // Navigate
-                                            Navigate("/products/search/" + e.target.value, { replace: true, state: { q: e.target.value } })
-                                        }
-                                    }} />
+                                    //         // Navigate
+                                    //         Navigate("/products/search/" + e.target.value, { replace: true, state: { q: e.target.value } })
+                                    //     }
+                                    // }}
+                                    />
                                     <span className="input-group-text" id="Search_bar_d">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 50 50">
                                             <path fill="currentColor" d="M23 36c-7.2 0-13-5.8-13-13s5.8-13 13-13s13 5.8 13 13s-5.8 13-13 13zm0-24c-6.1 0-11 4.9-11 11s4.9 11 11 11s11-4.9 11-11s-4.9-11-11-11z" />

@@ -58,5 +58,5 @@ export const states = ["Abia State", "Adamawa State", "Akwa Ibom State", "Anambr
 
 // Domain
 // export const domain = "https://medsoph.xyz/";
-// export const domain = "http://localhost:5000/";
+// export const domain = "http://localhost:4000/api/";
 export const domain = "/api/";

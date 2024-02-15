@@ -6,7 +6,7 @@ const path = require("path");
 const misc = {};
 
 // Base Directory
-misc["image_base_directory"] = path.join(__dirname, "./../.data/images/");
+misc["image_base_directory"] = path.join(__dirname, "./../.data/images/");;
 
 // Not Found
 misc.notFound = (data, callback) => {
@@ -28,7 +28,7 @@ misc["getImages"] = (data, callback) => {
 
         case "get":
             // Get file name
-            const filename = data.path.replace("image", "").trim();
+            const filename = data.path.replace("api/image/", "").trim();
 
             if (filename && filename.length > 0) {
                 //  Read File

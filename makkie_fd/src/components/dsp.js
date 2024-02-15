@@ -71,12 +71,12 @@ export const Product_DSP = (domain, collection, index, item, cart, wishlist, dis
     return (
         <div key={item._id.toUpperCase() + "_" + index + "P"} className="card">
             <div className="imgcont">
-                <Link to={`/product/${collection}/${index}/src-${item._id.toLowerCase()}`} preventScrollReset={false} className="d-inline-block text-decoration-none">
+                <Link to={`/product/${collection}/${index}/src-${item._id.toLowerCase()}`} className="d-inline-block text-decoration-none">
                     <img src={domain + "image/" + item.images.main} width="100%" height="100%" className="card-img-top" alt={collection} />
                 </Link>
             </div>
             <div className="card-body">
-                <Link to={`/product/${collection}/${index}/src-${item._id.toLowerCase()}`} preventScrollReset={false} className="d-inline-block px-2 pb-3 text-decoration-none">
+                <Link to={`/product/${collection}/${index}/src-${item._id.toLowerCase()}`} className="d-inline-block px-2 pb-3 text-decoration-none">
                     <h5 className="card-title ps-1">{item.title}</h5>
                     <p className="card-text ps-1">&#x20A6; {new Intl.NumberFormat("en-US", {}).format(item.price)}</p>
                 </Link>

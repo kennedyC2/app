@@ -254,15 +254,15 @@ const App = () => {
             }
         });
 
-        // setTimeout(() => {
-        //     new Carousel(document.querySelector('#trending'), {
-        //         ride: "carousel",
-        //     })
+        setTimeout(() => {
+            new Carousel(document.querySelector('#trending'), {
+                ride: "carousel",
+            })
 
-        //     new Carousel(document.querySelector('#newArrival'), {
-        //         ride: "carousel"
-        //     })
-        // }, 5000);
+            new Carousel(document.querySelector('#newArrival'), {
+                ride: "carousel"
+            })
+        }, 10000);
 
 
     }, []);
@@ -276,12 +276,12 @@ const App = () => {
                 <p className="bg-primary text-white"></p>
             </div>
             <Routes>
-                <Route path="/" element={<Container CreateCart={CreateCart} CreateWishlist={CreateWishlist} />}>
+                <Route path="/" element={<Container CreateCart={CreateCart} CreateWishlist={CreateWishlist} FetchData={FetchData} />}>
                     <Route path="/" exact element={<Home FetchData={FetchData} CreateCart={CreateCart} CreateWishlist={CreateWishlist} Populate={Populate} />} />
                     <Route path="/cart" exact element={<Cart FetchAppData={FetchAppData} CreateUserData={CreateUserData} CreateCart={CreateCart} />} />
                     <Route path="/wishlist" exact element={<Wishlist CreateCart={CreateCart} CreateWishlist={CreateWishlist} />} />
                     <Route path="/profile" exact element={<Profile CreateUserData={CreateUserData} CreateCart={CreateCart} CreateWishlist={CreateWishlist} />} />
-                    <Route path="/product/:collection/:index/:id" exact element={<Product FetchAppData={FetchAppData} CreateUserData={CreateUserData} CreateCart={CreateCart} />} />
+                    <Route path="/product/:collection/:index/:id" exact element={<Product FetchAppData={FetchAppData} FetchData={FetchData} CreateUserData={CreateUserData} CreateCart={CreateCart} />} />
                     <Route path="/products/search/:query" exact element={<Search />} />
                     <Route path="/category" element={<User FetchAppData={FetchAppData} FetchCompletedOrders={FetchCompletedOrders} FetchPendingOrders={FetchPendingOrders} CreateCart={CreateCart} CreateUserData={CreateUserData} CreateWishlist={CreateWishlist} UpdateStatus={UpdateStatus} />}>
                         <Route path="/category/scrubs" exact element={<Scrubs FetchData={FetchData} />} />

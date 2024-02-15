@@ -45,6 +45,7 @@ services:
             - sigma_net
         volumes:
             - /app/node_modules
+            - ./images/makkie:/usr/src/app/.data/images
         depends_on:
             - mongodb
     medsoph:
@@ -56,6 +57,7 @@ services:
             - sigma_net
         volumes:
             - /app/node_modules
+            - ./images/medsoph:/usr/src/app/.data/images
         stdin_open: true
         tty: true
         depends_on:

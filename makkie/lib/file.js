@@ -19,7 +19,7 @@ misc["getImages"] = (data, callback) => {
 
         case "get":
             // Get file name
-            const filename = data.path.replace("image", "").trim();
+            const filename = data.path.replace("api/image", "").trim();
 
             if (filename && filename.length > 0) {
                 //  Read File
@@ -69,6 +69,8 @@ misc["saveImages"] = (obj, callback) => {
 
             // Define Filename
             const _file = base64_file.split(",")[1];
+
+            console.log(misc.image_base_directory)
 
             // Write data
             writeFileSync(misc.image_base_directory + filename, _file, "base64");

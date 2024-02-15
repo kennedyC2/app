@@ -7,7 +7,7 @@ import { Fragment, useCallback, useEffect } from "react";
 import { domain } from "./helpers";
 import { Product_DSP } from "./dsp";
 import { store } from "./main";
-import { Spinner2 } from "./misc";
+// import { Spinner2 } from "./misc";
 
 const Home = ({ FetchData, CreateCart, CreateWishlist, Populate }) => {
     const { coats, scrubs, crocs, sneakers, penTorch, scrubCaps, brooches, cardHolders, shirts, trending, newArrivals, cart, wishlist } = useSelector((state) => state);

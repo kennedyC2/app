@@ -1,5 +1,5 @@
-export const domain = "/api/";
-// export const domain = "http://localhost:5000/";
+// export const domain = "/api/";
+export const domain = "https://makkie.kennedyc.me/api/";
 
 export const Populate = (elem) => {
     let items = document.querySelectorAll("#" + elem + " .carousel-item");

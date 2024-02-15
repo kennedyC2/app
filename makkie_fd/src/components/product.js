@@ -22,13 +22,19 @@ const InitialState = {
     "images": {}
 }
 
-const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
+const Product = ({ FetchAppData, FetchData, CreateUserData, CreateCart }) => {
     const Dispatch = useDispatch()
-    const { appData, user, cart } = useSelector(state => state)
+    const { appData, user, cart, trending, newArrivals } = useSelector(state => state)
     const { collection, index, id } = useParams()
+    console.log(collection, index, id)
     const col = useSelector(state => state[collection])
+    const s = useSelector(state => state)
+    console.log(s)
+    console.log(col)
     const [target, setTarget] = useState(InitialState)
-    const [selectedSize, setSelectedSize] = useState(target.order && target.order.size !== "" ? target.order.size : "all")
+    console.log(target)
+    const [selectedSize, setSelectedSize] = useState(target && target.order && target.order.size !== "" ? target.order.size : "all")
+    const dir = `create${collection.charAt(0).toUpperCase()}${collection.substring(1)}`
 
     // Load appData
     useEffect(() => {
@@ -45,20 +51,13 @@ const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
             CreateCart(Dispatch, store)
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
-    useEffect(() => {
         if (collection === "newArrivals" || collection === "trending") {
             if (col.data.length > 0) {
                 let _data = JSON.parse(JSON.stringify(col["data"][index]))
                 setTarget(_data)
             } else {
-                // console.log(state.id)
-                (async () => {
-                    let { data } = await axios.get(domain + `products/${collection}/get?i=${id.replace("src-", "").toLowerCase()}&a=false&c=${collection}`);
-                    setTarget(data)
-                })()
+                FetchData(collection, null, Dispatch, dir, "TH")
             }
         }
 
@@ -66,14 +65,36 @@ const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
             let _data = JSON.parse(JSON.stringify(col[index]))
             setTarget(_data)
         } else {
-            (async () => {
-                let { data } = await axios.get(domain + `products/get?i=${id.replace("src-", "").toLowerCase()}&a=false&c=products`);
-                setTarget(data)
-            })()
+            FetchData("products", collection, Dispatch, dir)
+            setTarget(col["data"][index])
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [trending, newArrivals])
+
+    // useEffect(() => {
+    //     if (collection === "newArrivals" || collection === "trending") {
+    //         if (col.data.length > 0) {
+    //             let _data = JSON.parse(JSON.stringify(col["data"][index]))
+    //             setTarget(_data)
+    //         } else {
+    //             const dir = collection === "trending" ? "createTrending" : "createNewArrivals"
+    //             FetchData(collection, null, Dispatch, dir, "TH")
+    //         }
+    //     }
+
+    //     if (col.length > 0) {
+    //         let _data = JSON.parse(JSON.stringify(col[index]))
+    //         setTarget(_data)
+    //     } else {
+    //         (async () => {
+    //             let { data } = await axios.get(domain + `products/get?i=${id.replace("src-", "").toLowerCase()}&a=false&c=products`);
+    //             setTarget(data)
+    //         })()
+    //     }
+
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
     return (
         <div className="product body m-auto pt-3">
@@ -87,7 +108,7 @@ const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
                             <div className="pd_lft-1 col-md-6 col-lg-6">
                                 {/* Carousel */}
                                 <div id="item_dsp1" className="carousel carousel-dark slide w-100" data-bs-ride="carousel">
-                                    {target["images"]["main"] ? (
+                                    {target && target["images"]["main"] ? (
                                         <Fragment>
                                             <div className="carousel-inner h-100">
                                                 <div className="carousel-item h-100 w-100 active">
@@ -115,35 +136,35 @@ const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
                                 </div>
                                 <div id="item_dsp2" className="w-100 d-flex flex-nowrap mt-4">
                                     <div className="item me-2">
-                                        <img src={domain + "image/" + target.images.main} width="100%" height="100%" alt={collection} />
+                                        <img src={target ? domain + "image/" + target.images.main : ""} width="100%" height="100%" alt={collection} />
                                     </div>
                                     <div className="item me-2">
-                                        <img src={domain + "image/" + target.images.image_1} width="100%" height="100%" alt={collection} />
+                                        <img src={target ? domain + "image/" + target.images.image_1 : ""} width="100%" height="100%" alt={collection} />
                                     </div>
                                     <div className="item me-2">
-                                        <img src={domain + "image/" + target.images.image_2} width="100%" height="100%" alt={collection} />
+                                        <img src={target ? domain + "image/" + target.images.image_2 : ""} width="100%" height="100%" alt={collection} />
                                     </div>
                                 </div>
                             </div>
                             <div className="pd_lft-2 col-md-6 col-lg-5 h-100">
                                 <div className="text-start px-1">
-                                    <p className="text-uppercase mb-3">{target.title}</p>
+                                    <p className="text-uppercase mb-3">{target ? target.title : ""}</p>
                                     <p className="text-capitalize mb-3">
-                                        Brand: <span>{target.brand}</span>
+                                        Brand: <span>{target ? target.brand : ""}</span>
                                     </p>
                                     <p className="text-capitalize mb-4">
-                                        Sex: <span>{target.sex}</span>
+                                        Sex: <span>{target ? target.sex : ""}</span>
                                     </p>
-                                    <p className="prc mb-4">&#x20A6; {new Intl.NumberFormat("en-US", {}).format(target.price)}</p>
+                                    <p className="prc mb-4">&#x20A6; {new Intl.NumberFormat("en-US", {}).format(target ? target.price : 0)}</p>
 
-                                    <div className="mb-4" style={{ display: Object.keys(target["sizes"]).length > 0 ? "block" : "none" }}>
+                                    <div className="mb-4" style={{ display: target && Object.keys(target["sizes"]).length > 0 ? "block" : "none" }}>
                                         <p>Sizes:</p>
                                         <ul className="s_list">
                                             {
-                                                Object.keys(target["sizes"]).length > 0 ? (
+                                                target && Object.keys(target["sizes"]).length > 0 ? (
                                                     Object.keys(target["sizes"]).map((each, index) => {
                                                         return (
-                                                            <li key={index} className={each === target.order.size ? "selectedSz" : ""} onClick={e => {
+                                                            <li key={index} className={each === target && target.order.size ? "selectedSz" : ""} onClick={e => {
                                                                 setSelectedSize(each)
 
                                                                 // Update
@@ -156,11 +177,11 @@ const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
                                         </ul>
                                     </div>
 
-                                    <div className="mb-4" style={{ display: Object.keys(target["colors"]).length > 0 ? "block" : "none" }}>
+                                    <div className="mb-4" style={{ display: target && Object.keys(target["colors"]).length > 0 ? "block" : "none" }}>
                                         <p>Colour:</p>
                                         <ul className="c_list">
                                             {
-                                                Object.keys(target["sizes"]).length > 0 ? (
+                                                target && Object.keys(target["sizes"]).length > 0 ? (
                                                     selectedSize === "all" ? (
                                                         Object.keys(target["colors"]).map((each, index) => {
                                                             return (
@@ -189,7 +210,7 @@ const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
                                                     )
                                                 ) : (
                                                     <form action="" method="get">
-                                                        {Object.keys(target["colors"]).map((each, index) => {
+                                                        {target && Object.keys(target["colors"]).map((each, index) => {
                                                             return (
                                                                 <input key={index + each} className={`form-check-input A${target._id.toUpperCase() + "_" + index}${each}`} type="checkbox" style={{ backgroundColor: each }}
                                                                     onChange={async e => {
@@ -221,7 +242,7 @@ const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
                                                     <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
                                                 </svg>
                                             </span>
-                                            <input type="number" className="form-control inc text-center" placeholder="1" aria-label="Username" aria-describedby="basic-addon1" value={target.order ? target.order["quantity"] : 0} readOnly />
+                                            <input type="number" className="form-control inc text-center" placeholder="1" aria-label="Username" aria-describedby="basic-addon1" value={target && target.order ? target.order["quantity"] : 0} readOnly />
                                             <span className="input-group-text" id="plus" onClick={e => {
                                                 setTarget({ ...target, order: { ...target.order, quantity: target.order.quantity += 1 } })
                                             }}>
@@ -238,7 +259,7 @@ const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
                             <div className="text-uppercase pt-2 pb-3 border-bottom border-2">Summary</div>
                             <div className="d-flex justify-content-between my-4 border-bottom border-1 pb-3">
                                 <div className="col-5">Subtotal:</div>
-                                <div className="col-5 text-end">&#x20A6; {new Intl.NumberFormat("en-US", {}).format(parseInt(target.order ? target.order["quantity"] : 0) * parseInt(target["price"]))}</div>
+                                <div className="col-5 text-end">&#x20A6; {new Intl.NumberFormat("en-US", {}).format(parseInt(target && target.order ? target.order["quantity"] : 0) * parseInt(target ? target["price"] : 0))}</div>
                             </div>
                             <div className="my-4">
                                 <p className="mb-3">Location:</p>
@@ -270,7 +291,7 @@ const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
                             <div className="c-btm">
                                 <div className="w-100 d-flex justify-content-between border-bottom border-1 pb-2">
                                     <p>Total:</p>
-                                    <p>&#x20A6; {new Intl.NumberFormat("en-US", {}).format(appData && appData["delivery"] ? ((parseInt(target.order ? target.order["quantity"] : 0) * parseInt(target["price"])) + appData["delivery"][user["delivery"]]) : "")}</p>
+                                    <p>&#x20A6; {new Intl.NumberFormat("en-US", {}).format(appData && appData["delivery"] ? ((parseInt(target && target.order ? target.order["quantity"] : 0) * parseInt(target ? target["price"] : 0)) + appData["delivery"][user["delivery"]]) : "")}</p>
                                 </div>
                                 <div className="pt-1 pb-3">
                                     <div className="form-check text-start ps-4 pt-4 pb-3">
@@ -307,9 +328,9 @@ const Product = ({ FetchAppData, CreateUserData, CreateCart }) => {
                                             expiry: cart.expiry
                                         }, store)
 
-                                        return Dispatch({ type: "addToCart", payload: JSON.parse(JSON.stringify(target)) })
+                                        return Dispatch({ type: "addToCart", payload: JSON.parse(JSON.stringify(target ? target : {})) })
                                     }}>
-                                        {cart.id && cart.id.indexOf(target._id) > -1 ? "ADDED" : "ADD TO CART"}
+                                        {cart.id && cart.id.indexOf(target ? target._id : "") > -1 ? "ADDED" : "ADD TO CART"}
                                     </button>{" "}
                                     <button type="button" className="btn btn-md w-100 py-2 mb-3" onClick={async e => {
                                         const reqData = {

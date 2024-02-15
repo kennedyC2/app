@@ -75,7 +75,7 @@ server["unifiedServer"] = (req, res) => {
         let chosenHandler = server.router[trimmedPath] !== undefined ? server.router[trimmedPath] : notFound;
 
         // if request is image, route to image handler
-        chosenHandler = trimmedPath.indexOf("image/") > -1 ? getImages : chosenHandler;
+        chosenHandler = trimmedPath.indexOf("api/image/") > -1 ? getImages : chosenHandler;
 
         // Define Data
         const data = {
@@ -116,6 +116,7 @@ server["handler"] = (res, Code, Message, Type) => {
     const ContentType = typeof Type === "string" ? Type : "json";
 
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:8000");
+    // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     // res.setHeader("Access-Control-Allow-Origin", "https://medsoph.com");
     res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,POST,PUT,DELETE");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -183,6 +184,8 @@ server["SERVER_init"] = () => {
     server.HTTPserver.listen(configuration.HTTP_port, () => {
         console.log("HTTP Server is Listening On Port " + configuration.HTTP_port + " in " + configuration.mode + " mode");
     });
+
+    server.HTTPserver.keepAliveTimeout = 60000;
 
     server.HTTPSserver.listen(configuration.HTTPS_port, () => {
         console.log("HTTPS Server is Listening On Port " + configuration.HTTPS_port + " in " + configuration.mode + " mode");

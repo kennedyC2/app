@@ -58,7 +58,7 @@ server["unifiedServer"] = (req, res) => {
         let chosenHandler = server.router[trimmedPath] !== undefined ? server.router[trimmedPath] : notFound;
 
         // if request is image, route to image handler
-        chosenHandler = trimmedPath.indexOf("image/") > -1 ? getImages : chosenHandler;
+        chosenHandler = trimmedPath.indexOf("api/image/") > -1 ? getImages : chosenHandler;
 
         // Define Data
         const data = {
@@ -139,8 +139,8 @@ server["handler"] = (res, Code, Message, Type) => {
 // =======================================================
 server["router"] = {
     ping: ping,
-    "app/data": appData,
-    "home": homepage,
+    "api/app/data": appData,
+    "api/home": homepage,
     "api/products/add": createProduct,
     "api/products/get": getProduct,
     "api/products/search": searchProduct,
@@ -173,6 +173,8 @@ server["SERVER_init"] = () => {
     server.HTTPserver.listen(configuration.HTTP_port, () => {
         console.log("HTTP Server is Listening On Port " + configuration.HTTP_port + " in " + configuration.mode + " mode");
     });
+
+    server.HTTPserver.keepAliveTimeout = 60000;
 };
 
 // Export Module
