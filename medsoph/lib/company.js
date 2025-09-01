@@ -38,7 +38,7 @@ company["create_company"] = async (data, callback) => {
 
             if (name && email && phone && account && time && date && reg_no && address && state && country && dir) {
                 // Confirm Admin
-                if (account === "admin") {
+                if (account === "administrator") {
                     // Create Company ID
                     const companyID = createID(name);
 

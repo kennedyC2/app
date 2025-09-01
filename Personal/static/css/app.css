@@ -269,6 +269,7 @@ body {
 .work ul {
     width: 80%;
     margin-top: 10px;
+    min-height: 150px;
 }
 
 .work ul li {
@@ -566,7 +567,7 @@ footer > p {
     html,
     body {
         height: 100vh;
-        background-image: linear-gradient(to right, #d8d3d3, #ffffff);
+        /* background-image: linear-gradient(to right, #d8d3d3, #ffffff); */
     }
 
     #ext {
@@ -642,6 +643,18 @@ footer > p {
     #cont,
     #abt {
         height: 85%;
+    }
+
+    #wk .rt,
+    #pgt .rt,
+    #cont .rt,
+    #abt .rt {
+        display: none;
+    }
+
+    #univ,
+    #tech {
+        height: 26%;
     }
 
     .lt {
@@ -741,9 +754,9 @@ footer > p {
         margin-top: -10px;
     }
 
-    .cont .lt {
+    /* .cont .lt {
         width: 100%;
-    }
+    } */
 
     .pgt > div:first-child > div:nth-child(2) {
         flex-direction: row;

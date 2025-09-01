@@ -190,7 +190,7 @@ cli["responder"]["UserInfo"] = (str) => {
 
 // Vertical Space
 cli["verticalSpace"] = (lines) => {
-    line = typeof lines == "number" && lines > 0 ? lines : 1;
+    var line = typeof lines == "number" && lines > 0 ? lines : 1;
     for (var i = 0; i < line; i++) {
         console.log(" ");
     }
